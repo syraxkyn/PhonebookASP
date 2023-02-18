@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
     List<Phonebook.Models.HandbookRecord> handbookRecords = ViewBag.getall;
-    int id = 0;
 }
 
 <!DOCTYPE html>
@@ -24,16 +23,13 @@
             </tr>
             @foreach (var b in handbookRecords)
             {
-                {
-                    id = id + 1;
-                };
                 <tr>
-                    <td><p>@id</p></td>
+                    <td><p>@b.Id</p></td>
                     <td><p>@b.LastName</p></td>
                     <td><p>@b.Phone</p></td>
                     <td>
-                        <p><a href="/Dict/Update/?id=@id">Изменить</a></p>
-                        <p><a href="/Dict/Delete/?id=@id">Удалить</a></p>
+                        <p><a href="/Dict/Update/?id=@b.Id">Изменить</a></p>
+                        <p><a href="/Dict/Delete/?id=@b.Id">Удалить</a></p>
                     </td>
                 </tr>
             }

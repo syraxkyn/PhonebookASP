@@ -11,7 +11,7 @@ namespace Phonebook.Models
         IEnumerable<T> GetRecords(); // получение всех объектов
         T GetRecord(int id); // получение одного объекта по id
         void Create(T item); // создание объекта
-        void Update(T item, int id); // обновление объекта
+        void Update(T item); // обновление объекта
         void Delete(int id); // удаление объекта по id
     }
 }

@@ -27,8 +27,14 @@ namespace Phonebook.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddSave(HandbookRecord handbookRecord)
+        public ActionResult AddSave(string LastName, string Phone)
         {
+            HandbookRecord handbookRecord = new HandbookRecord
+            {
+                Id = 0,
+                LastName = LastName, 
+                Phone = Phone 
+            };
             _handbookRecordRepository.Create(handbookRecord);
             return Redirect("/Dict/Index");
         }
@@ -46,10 +52,37 @@ namespace Phonebook.Controllers
                 return Redirect("/Dict/Index");
             }
         }
-        //[HttpPost]
-        //public ActionResult UpdateSave(HandbookRecord handbookRecord)
-        //{
-
-        //}
+        [HttpPost]
+        public ActionResult UpdateSave(string LastName, string Phone,int Id)
+        {
+            HandbookRecord handbookRecord = new HandbookRecord
+            {
+                Id = Id,
+                LastName = LastName,
+                Phone = Phone
+            };
+            _handbookRecordRepository.Update(handbookRecord);
+            return Redirect("/Dict/Index");
+        }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var handbookRecord = _handbookRecordRepository.GetRecord(id);
+            if (handbookRecord != null)
+            {
+                ViewBag.Id = handbookRecord.Id;
+                return View();
+            }
+            else
+            {
+                return Redirect("/Dict/Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteSave(int id) 
+        { 
+            _handbookRecordRepository.Delete(id);
+            return Redirect("/Dict/Index");
+        }
     }
 }

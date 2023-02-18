@@ -12,40 +12,31 @@ namespace Phonebook.Models
         readonly string jsonFilePath = @"D:/Labs/ASP/Phonebook/Phonebook/App_Data/database.json";
         public void Create(HandbookRecord item)
         {
-            try
+            var jsonData = File.ReadAllText(jsonFilePath);
+            var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
+            if(handbookRecordList.Count != 0)
             {
-                var jsonData = File.ReadAllText(jsonFilePath);
-                var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
-
+                item.Id = handbookRecordList.Max(x => x.Id) + 1;
+            }
+            bool recordAlreadyExists = handbookRecordList.Exists(x => x.LastName == item.LastName && x.Phone == item.Phone);
+            if (!recordAlreadyExists)
+            {
                 handbookRecordList.Add(item);
-
                 jsonData = JsonConvert.SerializeObject(handbookRecordList);
                 File.WriteAllText(jsonFilePath, jsonData);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Add Error : " + ex.Message.ToString());
             }
         }
 
         public void Delete(int id)
         {
-            try
+            var jsonData = File.ReadAllText(jsonFilePath);
+            var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
+            var handbookRecord = handbookRecordList.Where(x => x.Id == id).FirstOrDefault();
+            if (handbookRecord != null)
             {
-                var jsonData = File.ReadAllText(jsonFilePath);
-                var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
-
-                if (GetRecord(id) != null)
-                {
-                    handbookRecordList.RemoveAt(id - 1);
-
-                    jsonData = JsonConvert.SerializeObject(handbookRecordList);
-                    File.WriteAllText(jsonFilePath, jsonData);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Add Error : " + ex.Message.ToString());
+                handbookRecordList.Remove(handbookRecord);
+                jsonData = JsonConvert.SerializeObject(handbookRecordList);
+                File.WriteAllText(jsonFilePath, jsonData);
             }
         }
 
@@ -53,7 +44,7 @@ namespace Phonebook.Models
         {
             var jsonData = File.ReadAllText(jsonFilePath);
             var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
-            var handbookRecord = handbookRecordList.ElementAtOrDefault(id-1);
+            HandbookRecord handbookRecord = handbookRecordList.Where(x => x.Id == id).FirstOrDefault();
             return handbookRecord;
         }
 
@@ -61,18 +52,44 @@ namespace Phonebook.Models
         {
             var jsonData = File.ReadAllText(jsonFilePath);
             var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
-            return handbookRecordList;
+            var sortedList = handbookRecordList.OrderBy(x => x.LastName).ToList();
+            return sortedList;
         }
 
-        public void Update(HandbookRecord item, int id = 0)
+        public void Update(HandbookRecord item)
         {
             var jsonData = File.ReadAllText(jsonFilePath);
             var handbookRecordList = JsonConvert.DeserializeObject<List<HandbookRecord>>(jsonData) ?? new List<HandbookRecord>();
-            var obj = handbookRecordList.ElementAtOrDefault(id - 1);
+            var obj = handbookRecordList.Where(x => x.Id == item.Id).FirstOrDefault();
             if (obj != null)
             {
-                obj.LastName = item.LastName;
-                obj.Phone = item.Phone;
+                if(obj.LastName == item.LastName)
+                {
+                    if (obj.Phone != item.Phone)
+                    {
+                        bool numberAlreadyExists = handbookRecordList.Count(x => x.Phone == item.Phone) == 1;
+                        if (!numberAlreadyExists)
+                        {
+                            obj.Phone = item.Phone;
+                            jsonData = JsonConvert.SerializeObject(handbookRecordList);
+                            File.WriteAllText(jsonFilePath, jsonData);
+                        }
+                    }
+                }
+                else
+                {
+                    obj.LastName = item.LastName;
+                    if(obj.Phone != item.Phone)
+                    {
+                        bool numberAlreadyExists = handbookRecordList.Count(x => x.Phone == item.Phone) == 1;
+                        if (!numberAlreadyExists)
+                        {
+                            obj.Phone = item.Phone;
+                        }
+                    }
+                    jsonData = JsonConvert.SerializeObject(handbookRecordList);
+                    File.WriteAllText(jsonFilePath, jsonData);
+                }
             }
         }
     }

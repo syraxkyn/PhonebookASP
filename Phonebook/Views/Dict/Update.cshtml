@@ -12,26 +12,43 @@
 </head>
 <p><a href="/Dict/Index">Главная страница</a></p>
 <body>
-    @using (Html.BeginForm("UpdateSave", "Dict", FormMethod.Post))
-    {
+    @*@using (Html.BeginForm("UpdateSave", "Dict", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>Введите фамилию: </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.LastName, new {@Value = ViewBag.handbookRecord.LastName})
+                    </td>
+                </tr>
+                <tr>
+                    <td>Введите номер телефона: </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Phone, new { @Value = ViewBag.handbookRecord.Phone })
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Submit" /></td>
+                </tr>
+            </table>
+        }*@
+    <form method="post" action="/Dict/UpdateSave">
+        <input type="hidden" name="Id" value="@ViewBag.handbookRecord.Id" />
         <table>
             <tr>
-                <td>Введите фамилию: </td>
-                <td>
-                    @Html.TextBoxFor(m => m.LastName, new {@Value = ViewBag.handbookRecord.LastName})
-                </td>
+                <td><p>Введите фамилию: </p></td>
+                <td><input type="text" name="LastName" value=@ViewBag.handbookRecord.LastName /> </td>
             </tr>
             <tr>
-                <td>Введите номер телефона: </td>
-                <td>
-                    @Html.TextBoxFor(m => m.Phone, new { @Value = ViewBag.handbookRecord.Phone })
-                </td>
+                <td><p>Введите номер телефона: </p></td>
+                <td><input type="text" name="Phone" value=@ViewBag.handbookRecord.Phone /> </td>
             </tr>
             <tr>
+                <td><input type="submit" value="Отправить" /> </td>
                 <td></td>
-                <td><input type="submit" value="Submit" /></td>
             </tr>
         </table>
-    }
+    </form>
 </body>
 </html>

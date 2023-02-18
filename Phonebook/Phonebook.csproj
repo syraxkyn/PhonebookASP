@@ -183,6 +183,7 @@
     <Content Include="Views\Dict\Index.cshtml" />
     <Content Include="Views\Dict\Add.cshtml" />
     <Content Include="Views\Dict\Update.cshtml" />
+    <Content Include="Views\Dict\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -224,6 +225,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties app_3data_4database_1json__JsonSchema="https://json.schemastore.org/deployed.json" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
