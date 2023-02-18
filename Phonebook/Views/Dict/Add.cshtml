@@ -1,0 +1,37 @@
+﻿@model Phonebook.Models.HandbookRecord
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+</head>
+<p><a href="/Dict/Index">Главная страница</a></p>
+<body>
+    @using (Html.BeginForm("AddSave", "Dict", FormMethod.Post))
+    {
+            <table>
+                <tr>
+                    <td>Введите фамилию: </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.LastName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Введите номер телефона: </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Phone)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Submit" /></td>
+                </tr>
+            </table>
+    }
+    </body>
+</html>
