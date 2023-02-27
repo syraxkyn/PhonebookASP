@@ -13,5 +13,6 @@ namespace Phonebook.Models
         void Create(T item); // создание объекта
         void Update(T item); // обновление объекта
         void Delete(int id); // удаление объекта по id
+        void Save();
     }
 }

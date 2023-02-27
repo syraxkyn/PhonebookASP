@@ -1,3 +1,4 @@
+using Phonebook.DAL;
 using Phonebook.Models;
 using System.Web.Mvc;
 using Unity;
@@ -11,7 +12,7 @@ namespace Phonebook
         {
 			var container = new UnityContainer();
             
-            container.RegisterType<IRepository<HandbookRecord>, JsonRepository>();
+            container.RegisterType<IRepository<HandbookRecord>, HandbookRepository>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -36,6 +36,14 @@ namespace Phonebook.Controllers
                 Phone = Phone 
             };
             _handbookRecordRepository.Create(handbookRecord);
+            try
+            {
+                _handbookRecordRepository.Save();
+            }
+            catch(Exception ex)
+            {
+                return Redirect("/Dict/Add");
+            }
             return Redirect("/Dict/Index");
         }
         [HttpGet]
@@ -62,6 +70,14 @@ namespace Phonebook.Controllers
                 Phone = Phone
             };
             _handbookRecordRepository.Update(handbookRecord);
+            try
+            {
+                _handbookRecordRepository.Save();
+            }
+            catch(Exception ex)
+            {
+                return Redirect("/Dict/Index");
+            }
             return Redirect("/Dict/Index");
         }
         [HttpGet]
@@ -82,6 +98,7 @@ namespace Phonebook.Controllers
         public ActionResult DeleteSave(int id) 
         { 
             _handbookRecordRepository.Delete(id);
+            _handbookRecordRepository.Save();
             return Redirect("/Dict/Index");
         }
     }
